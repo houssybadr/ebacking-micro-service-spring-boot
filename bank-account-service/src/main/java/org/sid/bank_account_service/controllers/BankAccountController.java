@@ -1,56 +1,48 @@
 package org.sid.bank_account_service.controllers;
 
-import org.sid.bank_account_service.entities.BankAccount;
-import org.sid.bank_account_service.repositories.BankAccountRepository;
+import org.sid.bank_account_service.dto.BankAccountRequestDto;
+import org.sid.bank_account_service.dto.BankAccountResponseDto;
+import org.sid.bank_account_service.service.BankAccountService;
 import org.springframework.web.bind.annotation.*;
 
-import java.nio.file.Path;
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping(path = "/api/bank-account")
 public class BankAccountController {
 
-    private BankAccountRepository repository;
+    private final BankAccountService bankAccountService;
 
-    public BankAccountController(BankAccountRepository repository){
-        this.repository = repository;
+    public BankAccountController(BankAccountService bankAccountService) {
+        this.bankAccountService = bankAccountService;
     }
 
     @GetMapping
-    public List<BankAccount> findAll(){
-        return this.repository.findAll();
+    public List<BankAccountResponseDto> findAll() {
+        return bankAccountService.getAllAccounts();
     }
 
     @GetMapping(path = "/{id}")
-    public BankAccount findById(@PathVariable String id){
-        return this.repository.findById(id)
-                .orElseThrow(()->new RuntimeException("Account Not Found"+id));
+    public BankAccountResponseDto findById(@PathVariable String id) {
+
+        return this.bankAccountService.getAccountById(id);
     }
 
     @PostMapping
-    public BankAccount save(@RequestBody BankAccount bankAccount){
-        if(bankAccount.getId()==null) bankAccount.setId(UUID.randomUUID().toString());
-        return this.repository.save(bankAccount);
+    public BankAccountResponseDto save(@RequestBody BankAccountRequestDto requestDto) {
+        return this.bankAccountService.createAccount(requestDto);
     }
 
-    @PutMapping(path="{id}")
-    public BankAccount update(
-            @RequestBody BankAccount bankAccount,
+    @PutMapping(path = "/{id}")
+    public BankAccountResponseDto update(
+            @RequestBody BankAccountRequestDto requestDto,
             @PathVariable String id
-    ){
-        BankAccount fetched=this.repository.findById(id)
-                .orElseThrow(()->new RuntimeException("Account Not Found"+id));
-        if(bankAccount.getBalance() != null) fetched.setBalance(bankAccount.getBalance());
-        if(bankAccount.getType() != null) fetched.setType(bankAccount.getType());
-        if(bankAccount.getCurrency() != null) fetched.setCurrency(bankAccount.getCurrency());
-        if(bankAccount.getCreatedAt() != null) fetched.setCreatedAt(bankAccount.getCreatedAt());
-        return this.repository.save(fetched);
+    ) {
+        return this.bankAccountService.updateAccount(requestDto, id);
     }
 
-    @DeleteMapping(path="{id}")
-    public void deleteById(@PathVariable String id){
-        this.deleteById(id);
+    @DeleteMapping(path = "/{id}")
+    public void deleteById(@PathVariable String id) {
+        this.bankAccountService.deleteAccount(id);
     }
 }
