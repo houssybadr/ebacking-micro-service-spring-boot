@@ -1,3 +1,25 @@
 spring:
     application:
         name: bank-account-service
+
+    datasource:
+        url: jdbc:h2:mem:account-db
+        driverClassName: org.h2.Driver
+        username: sa
+        password:
+
+    h2:
+        console:
+            enabled: true
+
+    jpa:
+        database-platform: org.hibernate.dialect.H2Dialect
+        hibernate:
+            ddl-auto: update # This is the crucial line that creates the table
+        show-sql: true
+        properties:
+            hibernate:
+                format_sql: true
+
+server:
+    port: 8081
