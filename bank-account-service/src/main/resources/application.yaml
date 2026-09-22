@@ -20,6 +20,9 @@ spring:
         properties:
             hibernate:
                 format_sql: true
+    graphql:
+        graphiql:
+            enabled: true
 
 server:
     port: 8081
