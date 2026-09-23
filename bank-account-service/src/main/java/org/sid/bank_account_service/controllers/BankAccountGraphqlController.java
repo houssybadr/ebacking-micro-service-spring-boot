@@ -2,12 +2,11 @@ package org.sid.bank_account_service.controllers;
 
 import org.sid.bank_account_service.dto.BankAccountRequestDto;
 import org.sid.bank_account_service.dto.BankAccountResponseDto;
-import org.sid.bank_account_service.entities.BankAccount;
-import org.sid.bank_account_service.repositories.BankAccountRepository;
 import org.sid.bank_account_service.service.BankAccountService;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
@@ -42,8 +41,7 @@ public class BankAccountGraphqlController {
     }
 
     @MutationMapping
-    public Boolean deleteBankAcount(@Argument String id){
+    public void deleteBankAcount(@Argument String id){
         this.bankAccountService.deleteAccount(id);
-        return true;
     }
 }

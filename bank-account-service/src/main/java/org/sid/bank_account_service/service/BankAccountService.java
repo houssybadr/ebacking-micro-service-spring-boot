@@ -9,7 +9,8 @@ public interface BankAccountService {
     BankAccountResponseDto createAccount(BankAccountRequestDto bankAccountRequestDto);
     BankAccountResponseDto updateAccount(BankAccountRequestDto bankAccountRequestDto, String id);
     BankAccountResponseDto getAccountById(String id);
-    void deleteAccount(String id);
     List<BankAccountResponseDto> getAllAccounts();
+    Boolean exists(String id);
+    void deleteAccount(String id);
 
 }

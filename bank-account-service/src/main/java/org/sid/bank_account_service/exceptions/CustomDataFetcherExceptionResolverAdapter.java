@@ -22,7 +22,7 @@ public class CustomDataFetcherExceptionResolverAdapter extends DataFetcherExcept
 
             @Override
             public List<SourceLocation> getLocations() {
-                return List.of();
+                return null;
             }
 
             @Override

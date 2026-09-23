@@ -3,12 +3,12 @@ package org.sid.bank_account_service.service.Impl;
 import org.sid.bank_account_service.dto.BankAccountRequestDto;
 import org.sid.bank_account_service.dto.BankAccountResponseDto;
 import org.sid.bank_account_service.entities.BankAccount;
+import org.sid.bank_account_service.exceptions.RessourceNotFoundException;
 import org.sid.bank_account_service.mapper.BankAccountMapper;
 import org.sid.bank_account_service.repositories.BankAccountRepository;
 import org.sid.bank_account_service.service.BankAccountService;
 import org.springframework.stereotype.Service;
 
-import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.UUID;
 
@@ -45,7 +45,7 @@ public class BankAccountImpl implements BankAccountService {
     @Override
     public void deleteAccount(String id) {
         if (!bankAccountRepository.existsById(id)) {
-            throw new EntityNotFoundException("Account not found: " + id);
+            throw new RessourceNotFoundException("Account not found: " + id);
         }
         bankAccountRepository.deleteById(id);
     }
@@ -55,8 +55,13 @@ public class BankAccountImpl implements BankAccountService {
         return bankAccountMapper.toResponseDtos(bankAccountRepository.findAll());
     }
 
+    @Override
+    public Boolean exists(String id){
+        return this.bankAccountRepository.existsById(id);
+    }
+
     private BankAccount findAccount(String id) {
         return bankAccountRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Account not found: " + id));
+                .orElseThrow(() -> new RessourceNotFoundException("Account not found: " + id));
     }
 }

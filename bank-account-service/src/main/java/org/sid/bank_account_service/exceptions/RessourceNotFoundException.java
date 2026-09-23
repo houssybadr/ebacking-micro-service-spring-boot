@@ -1,0 +1,7 @@
+package org.sid.bank_account_service.exceptions;
+
+public class RessourceNotFoundException extends RuntimeException {
+    public RessourceNotFoundException(String message) {
+        super(message);
+    }
+}
