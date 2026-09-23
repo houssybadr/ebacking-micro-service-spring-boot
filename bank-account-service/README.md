@@ -20,7 +20,7 @@ It uses an in-memory H2 database, so data is lost when the application stops.
 
 ## Architecture
 
-The project is a single backend service with a simple layered design:
+The project is a single backend service with a simple layered design :
 
 ```text
 REST / GraphQL controllers
